@@ -26,14 +26,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class OpenAIServiceImpl implements OpenAIService {
+    private final ChatClient chatClient;
+    private final VectorStore vectorStore;
 
-    final ChatClient chatClient;
-    final VectorStore vectorStore;
-
-    @Value("classpath:/templates/rag-prompt-template.st")
+    @Value("classpath:/prompts/rag-prompt-template.st")
     private Resource ragPromptTemplate;
 
-    @Value("classpath:/templates/system-message.st")
+    @Value("classpath:/prompts/system-message.st")
     private Resource systemMessageTemplate;
 
     @Override
@@ -48,8 +47,6 @@ public class OpenAIServiceImpl implements OpenAIService {
         PromptTemplate promptTemplate = new PromptTemplate(ragPromptTemplate);
         Message userMessage = promptTemplate.createMessage(Map.of("input", question.question(), "documents",
                 String.join("\n", contentList)));
-
-        //contentList.forEach(System.out::println);
 
         ChatResponse response = chatClient.call(new Prompt(List.of(systemMessage, userMessage)));
 

@@ -1,7 +1,6 @@
 spring:
   application:
     name: spring-ai-rag-expert
-#Pass API key as environment variable, e.g. -DOPENAI_API_KEY=your-api-key
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
@@ -25,7 +24,6 @@ spring:
         metricType: COSINE
 sfg:
   aiapp:
-    vectorStorePath: /tmp/vectorstore.json
     documentsToLoad:
       - classpath:/towvehicles.txt
       # Sportsman 212 - Weight 3,458 lbs
