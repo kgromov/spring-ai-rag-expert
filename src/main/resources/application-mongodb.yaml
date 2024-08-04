@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: spring-ai
+  ai:
+    vectorstore:
+      mongodb:
+        index-name: vector_index
+        collection-name: vector_store

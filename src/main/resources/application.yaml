@@ -9,19 +9,9 @@ spring:
          model: text-embedding-3-small
       chat:
         options:
-          model: gpt-4-turbo
-    vectorstore:
-      milvus:
-        client:
-          host: "localhost"
-          port: 19530
-          username: "root"
-          password: "milvus"
-        databaseName: "default"
-        collectionName: "vector_store"
-        embeddingDimension: 1536
-        indexType: IVF_FLAT
-        metricType: COSINE
+          model: gpt-4o-mini
+  main:
+    allow-bean-definition-overriding: true
 sfg:
   aiapp:
     documentsToLoad:

@@ -1,9 +1,6 @@
 package guru.springframework.springairagexpert.bootstrap;
 
 import guru.springframework.springairagexpert.config.VectorStoreProperties;
-import io.milvus.client.MilvusServiceClient;
-import io.milvus.grpc.ListDatabasesResponse;
-import io.milvus.param.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
@@ -22,12 +19,9 @@ import java.util.List;
 public class LoadVectorStore implements CommandLineRunner {
     private final VectorStore vectorStore;
     private final VectorStoreProperties vectorStoreProperties;
-    private final MilvusServiceClient milvusClient;
 
     @Override
     public void run(String... args) {
-        R<ListDatabasesResponse> databases = milvusClient.listDatabases();
-        databases.getData().getDbNamesList().forEach(log::info);
         if (vectorStore.similaritySearch("Sportsman").isEmpty()) {
             log.info("Loading documents into vector store");
             vectorStoreProperties.documentsToLoad().forEach(document -> {
@@ -42,22 +36,3 @@ public class LoadVectorStore implements CommandLineRunner {
         log.info("Vector store loaded");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
