@@ -23,13 +23,13 @@ import java.util.List;
 public class LoadVectorStore implements CommandLineRunner {
     private final VectorStore vectorStore;
     private final VectorStoreProperties vectorStoreProperties;
-    private final JdbcTemplate template;
+//    private final JdbcTemplate template;
 
     @Override
     public void run(String... args) {
-//        if (vectorStore.similaritySearch("Sportsman").isEmpty()) {
-        template.update("delete from vector_store");
-        log.info("Loading vector store");
+//        template.update("delete from vector_store");
+        if (vectorStore.similaritySearch("Sportsman").isEmpty()) {
+            log.info("Loading vector store");
             log.info("Loading documents into vector store");
             vectorStoreProperties.documentsToLoad().forEach(document -> {
                 log.debug("Loading document: " + document.getFilename());
@@ -39,7 +39,7 @@ public class LoadVectorStore implements CommandLineRunner {
                 List<Document> splitDocuments = textSplitter.apply(documents);
                 vectorStore.add(splitDocuments);
             });
-//        }
+        }
         log.info("Vector store loaded");
     }
 }
