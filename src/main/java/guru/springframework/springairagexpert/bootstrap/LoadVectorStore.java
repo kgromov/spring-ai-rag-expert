@@ -12,6 +12,7 @@ import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,10 +23,13 @@ import java.util.List;
 public class LoadVectorStore implements CommandLineRunner {
     private final VectorStore vectorStore;
     private final VectorStoreProperties vectorStoreProperties;
+    private final JdbcTemplate template;
 
     @Override
     public void run(String... args) {
-        if (vectorStore.similaritySearch("Sportsman").isEmpty()) {
+//        if (vectorStore.similaritySearch("Sportsman").isEmpty()) {
+        template.update("delete from vector_store");
+        log.info("Loading vector store");
             log.info("Loading documents into vector store");
             vectorStoreProperties.documentsToLoad().forEach(document -> {
                 log.debug("Loading document: " + document.getFilename());
@@ -35,7 +39,7 @@ public class LoadVectorStore implements CommandLineRunner {
                 List<Document> splitDocuments = textSplitter.apply(documents);
                 vectorStore.add(splitDocuments);
             });
-        }
+//        }
         log.info("Vector store loaded");
     }
 }
